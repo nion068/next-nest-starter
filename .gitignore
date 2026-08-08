@@ -1,5 +1,6 @@
 node_modules
 .turbo
+/pours/
 dist
 .next
 coverage
@@ -14,3 +15,5 @@ test-results
 !apps/api/.env
 generated
 *.log
+
+/observability/signoz/casting.yaml.lock

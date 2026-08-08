@@ -13,7 +13,8 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write .",
-    "generate": "turbo run generate"
+    "generate": "turbo run generate",
+    "observability:up": "foundryctl cast -f observability/signoz/casting.yaml"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

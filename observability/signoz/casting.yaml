@@ -1,0 +1,14 @@
+apiVersion: v1alpha1
+kind: Installation
+metadata:
+  name: next-nest-starter-signoz
+spec:
+  deployment:
+    flavor: compose
+    mode: docker
+  ingester:
+    spec:
+      config:
+        data:
+          opamp.yaml: |
+            server_endpoint: ws://next-nest-starter-signoz-signoz-0:4320/v1/opamp

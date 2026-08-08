@@ -5,6 +5,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookie from '@fastify/cookie';
 import { AppModule } from './app.module.js';
+import './telemetry.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
