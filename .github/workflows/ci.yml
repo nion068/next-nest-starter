@@ -1,0 +1,26 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env: { POSTGRES_USER: app, POSTGRES_PASSWORD: app, POSTGRES_DB: app }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U app -d app" --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      DATABASE_URL: postgresql://app:app@localhost:5432/app?schema=public
+      JWT_ACCESS_SECRET: test-secret-that-is-at-least-thirty-two-characters
+      JWT_REFRESH_SECRET: test-secret-that-is-at-least-thirty-two-characters
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 11 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @starter/api prisma:generate
+      - run: pnpm --filter @starter/api exec prisma migrate deploy
+      - run: pnpm lint && pnpm typecheck && pnpm test && pnpm build
