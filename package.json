@@ -14,7 +14,8 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "generate": "turbo run generate",
-    "observability:up": "foundryctl cast -f observability/signoz/casting.yaml"
+    "observability:up": "foundryctl cast -f observability/signoz/casting.yaml",
+    "init:project": "node scripts/init-project.mjs"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
