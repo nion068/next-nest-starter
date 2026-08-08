@@ -9,9 +9,20 @@ async function main() {
   await prisma.user.upsert({
     where: { email: 'admin@example.test' },
     update: { passwordHash, role: Role.ADMIN, emailVerifiedAt: new Date() },
-    create: { email: 'admin@example.test', passwordHash, role: Role.ADMIN, emailVerifiedAt: new Date() },
+    create: {
+      email: 'admin@example.test',
+      passwordHash,
+      role: Role.ADMIN,
+      emailVerifiedAt: new Date(),
+    },
   });
   console.log('Seeded development admin: admin@example.test');
 }
 
-main().then(() => prisma.$disconnect()).catch(async (error: unknown) => { console.error(error); await prisma.$disconnect(); process.exit(1); });
+main()
+  .then(() => prisma.$disconnect())
+  .catch(async (error: unknown) => {
+    console.error(error);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

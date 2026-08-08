@@ -2,7 +2,10 @@
   "name": "next-nest-starter",
   "private": true,
   "packageManager": "pnpm@11.5.0",
-  "engines": { "node": ">=22.0.0", "pnpm": ">=11.0.0" },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
@@ -12,5 +15,9 @@
     "format": "prettier --write .",
     "generate": "turbo run generate"
   },
-  "devDependencies": { "prettier": "^3.5.3", "turbo": "^2.5.0", "typescript": "^5.8.3" }
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.3"
+  }
 }

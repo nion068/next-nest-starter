@@ -1,5 +1,22 @@
 {
-  "name": "@starter/api-client", "private": true, "version": "0.1.0", "type": "module", "exports": { ".": "./src/index.ts" },
-  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc --noEmit", "lint": "eslint src", "generate": "openapi-typescript http://localhost:3001/docs-json -o src/generated.ts" },
-  "devDependencies": { "@types/node": "^22.15.3", "eslint": "^9.25.1", "openapi-typescript": "^7.7.0", "typescript": "^5.8.3", "typescript-eslint": "^8.31.0" }
+  "name": "@starter/api-client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "generate": "openapi-typescript http://localhost:3001/docs-json -o src/generated.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "eslint": "^9.25.1",
+    "openapi-typescript": "^7.7.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
+  }
 }
