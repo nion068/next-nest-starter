@@ -4,8 +4,8 @@ import { Role, VerificationPurpose } from '@prisma/client';
 import argon2 from 'argon2';
 import { randomInt, randomUUID } from 'node:crypto';
 import { PrismaService } from '../prisma.service.js';
+import { BackgroundJobsService } from '../background-jobs/background-jobs.service.js';
 import { LoginDto, RegisterDto } from './dto.js';
-import { MessageService } from './message.service.js';
 
 type Tokens = { accessToken: string; refreshToken: string };
 @Injectable()
@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwt: JwtService,
-    private message: MessageService,
+    private backgroundJobs: BackgroundJobsService,
   ) {}
 
   private code() {
@@ -54,11 +54,11 @@ export class AuthService {
       },
     });
     const code = await this.challenge(VerificationPurpose.EMAIL_VERIFY, user.email, user.id);
-    await this.message.sendEmail(
-      user.email,
-      'Verify your email',
-      `Your verification code is ${code}`,
-    );
+    await this.backgroundJobs.sendEmail({
+      to: user.email,
+      subject: 'Verify your email',
+      text: `Your verification code is ${code}`,
+    });
     return { id: user.id, email: user.email };
   }
 
@@ -145,7 +145,11 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email: email.toLowerCase() } });
     if (user) {
       const code = await this.challenge(VerificationPurpose.PASSWORD_RESET, user.email, user.id);
-      await this.message.sendEmail(user.email, 'Password reset', `Your reset code is ${code}`);
+      await this.backgroundJobs.sendEmail({
+        to: user.email,
+        subject: 'Password reset',
+        text: `Your reset code is ${code}`,
+      });
     }
   }
 
@@ -174,7 +178,7 @@ export class AuthService {
       throw new UnauthorizedException('No account exists for this phone');
     }
     const code = await this.challenge(VerificationPurpose.PHONE_LOGIN, phone, user.id);
-    await this.message.sendSms(phone, `Your sign-in code is ${code}`);
+    await this.backgroundJobs.sendSms({ phone, text: `Your sign-in code is ${code}` });
   }
 
   async loginPhone(phone: string, code: string) {

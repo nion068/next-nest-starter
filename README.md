@@ -21,6 +21,20 @@ Web: `http://localhost:3000`; API docs: `http://localhost:3001/docs`; mail inbox
 `docker compose up --build` runs the complete containerized stack. Set real SMTP and an SMS provider adapter through environment variables before production.
 
 Mailpit is a local fake inbox: it accepts development emails but never sends them to real addresses. Run `docker compose up -d mailpit`, then view messages at `http://localhost:8025`.
+## Background jobs
+
+The API uses [pg-boss](https://www.npmjs.com/package/pg-boss) for durable PostgreSQL-backed jobs; Redis is not required. Email and SMS sends are queued by the API and processed by the separate worker process. pg-boss automatically creates its `pgboss` schema on first start.
+
+For local development, start PostgreSQL and Mailpit, then run the API and worker in separate terminals:
+
+    pnpm --filter @starter/api dev
+    pnpm --filter @starter/api worker:dev
+
+Register an account or request a password reset. The API response should return without waiting for message delivery, the worker should log the completed send, and email should appear in Mailpit at `http://localhost:8025`. To inspect queue state directly:
+
+    docker compose exec postgres psql -U app -d app -c 'SELECT name, state, count(*) FROM pgboss.job GROUP BY name, state ORDER BY name, state;'
+
+Run the API test suite with `pnpm --filter @starter/api test`, then run `pnpm --filter @starter/api typecheck`. For the complete Docker stack, use `docker compose up --build`; it starts the worker automatically.
 
 ## Observability with SigNoz
 
