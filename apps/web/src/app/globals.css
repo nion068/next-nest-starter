@@ -27,6 +27,22 @@ section {
   padding: 2rem;
   box-shadow: 0 8px 30px #1f293712;
 }
+.login-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.login-tabs button {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  flex: 1;
+}
+.login-tabs button.active {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: white;
+}
 form {
   display: grid;
   gap: 1rem;

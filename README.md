@@ -9,7 +9,7 @@ A reusable TypeScript monorepo: Next.js web app, NestJS/Fastify REST API, Postgr
 3. `docker compose up -d postgres mailpit`
 4. `pnpm --filter @starter/api prisma:migrate && pnpm dev`
 
-To create the development-only login account, run `pnpm --filter @starter/api prisma:seed`. It creates `admin@example.test` with password `ChangeMe123!`; change or remove this seed before production.
+To create the development-only login account, run `pnpm --filter @starter/api prisma:seed`. It creates `admin@example.test` with password `ChangeMe123!` and phone `+8801712345678`; change or remove this seed before production. In development, the SMS code is written to the API terminal by the console SMS provider.
 
 Web: `http://localhost:3000`; API docs: `http://localhost:3001/docs`; mail inbox: `http://localhost:8025`.
 
